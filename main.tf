@@ -11,3 +11,10 @@ module "security_module" {
   github_repository = var.github_repository
   subdomain_name    = var.subdomain_name
 }
+
+module "network_module" {
+  source           = "./modules/network"
+  domain_name      = var.domain_name
+  subdomain_name   = var.subdomain_name
+  website_endpoint = module.storage_module.hugo_site_endpoint
+}
