@@ -1,0 +1,20 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "${github_oidc}"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "token.actions.githubusercontent.com:aud": "${client_id}"
+        },
+        "StringLike": {
+          "token.actions.githubusercontent.com:sub": "${github_repository}"
+        }
+      }
+    }
+  ]
+}
