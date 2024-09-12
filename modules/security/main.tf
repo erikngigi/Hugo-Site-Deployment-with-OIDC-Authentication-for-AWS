@@ -8,7 +8,7 @@ resource "aws_iam_policy" "github_actions_policy" {
   name        = "S3GithubActionsPolicy"
   description = "Policy to allow GitHub Actions to put objects in a S3 bucket."
   policy = templatefile("${path.module}/templates/s3_github_actions_policy.json.tmpl",
-  { bucket_name = var.bucket_name })
+  { subdomain_name = var.subdomain_name })
 }
 
 resource "aws_iam_role" "github_action_role" {
@@ -21,26 +21,3 @@ resource "aws_iam_role" "github_action_role" {
       github_repository = var.github_repository
   })
 }
-
-# data "aws_iam_policy_document" "s3_full_access" {
-#   statement {
-#     actions   = ["s3:*"]
-#     resources = ["*"]
-#     condition {
-#       test     = "StringEquals"
-#       variable = "aws:ResourceTag/permit-github-action"
-#       values   = ["true"]
-#     }
-#   }
-# }
-
-# resource "aws_iam_policy" "github_actions" {
-#   name        = "github-actions"
-#   description = "Grant Github Actions ability to push to S3 bucket"
-#   policy      = data.aws_iam_policy_document.s3_full_access.json
-# }
-
-# resource "aws_iam_role_policy_attachment" "github_actions" {
-#   role       = aws_iam_role.github_actions.name
-#   policy_arn = aws_iam_policy.github_actions.arn
-# }

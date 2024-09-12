@@ -1,12 +1,12 @@
 resource "aws_s3_bucket" "hugo_site_bucket" {
-  bucket        = var.bucket_name
+  bucket        = var.subdomain_name
   force_destroy = true
 }
 
 resource "aws_s3_bucket_policy" "hugo_site_bucket_policy" {
   bucket = aws_s3_bucket.hugo_site_bucket.id
   policy = templatefile("${path.module}/templates/hugo_bucket_policy.json.tmpl",
-  { bucket_name = aws_s3_bucket.hugo_site_bucket.bucket })
+  { subdomain_name  = aws_s3_bucket.hugo_site_bucket.bucket })
 }
 
 resource "aws_s3_bucket_website_configuration" "hugo_site_configuration" {
